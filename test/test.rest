@@ -1,0 +1,9 @@
+
+### Test GET request
+GET http://localhost:8000
+
+### Test POST request
+POST http://localhost:8000/init
+
+### Test POST request
+POST http://localhost:8000/add_document

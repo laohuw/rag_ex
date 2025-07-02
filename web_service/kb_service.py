@@ -10,13 +10,14 @@ db_path = "/home/hd/py_ex/llama_ex/db/rag_database.db"
 model_gguf = "/home/hd/py_ex/models/llama-2-7b-chat.Q4_K_M.gguf"
 
 logger= logging.getLogger("llama_ex.kb_service")
-kb_controller = FastAPI(
+webApp = FastAPI(
         title="Llama Ex API",
         description="Llama Ex API",
         version="0.1.0",
         root_path="/api/v1",
     )
-@kb_controller.on_event("startup")
+
+@webApp.on_event("startup")
 async def startup_event():
     """Initialize the RAG system on startup"""
     rag = Llama2RAG(
@@ -25,16 +26,16 @@ async def startup_event():
     )
     logger.info("Starting up Llama Ex API")
 
-@kb_controller.get("/")
+@webApp.get("/")
 async def read_root():
     return {"message": "Welcome to the Llama Ex API"}
 
-@kb_controller.post("/init")
+@webApp.post("/init")
 async def init_doc():
 
     return {"message": "init successfully"}
 
-@kb_controller.post("/add_document")
+@webApp.post("/add_document")
 async def add_doc():
     documents = [
         "Python is a high-level programming language known for its simplicity and readability. It was created by Guido van Rossum and first released in 1991.",
@@ -47,12 +48,12 @@ async def add_doc():
         rag.add_document(doc)
     return {"message": "documents added successfully"}
 
-@kb_controller.post("/query")
+@webApp.post("/query")
 async def query_doc():
     return {"message": "Welcome to the Llama Ex API"}
 
 if __name__ == "__main__":
 
-    uvicorn.run("kb_service:kb_controller", prefix="api", port=8000, reload=True)
+    uvicorn.run("kb_service:webApp", prefix="api", port=8000, reload=True)
 
 

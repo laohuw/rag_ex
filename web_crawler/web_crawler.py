@@ -109,6 +109,10 @@ class SimpleCrawler:
             print(f"  Links found: {len(links)}")
             print(f"  Page size: {len(html)} bytes")
 
+            for tag in soup(["script", "style"]):
+                tag.decompose()
+            text = soup.get_text(separator=" ", strip=True)
+
             # You can add more processing here:
             # - Save content to file
             # - Extract specific data
